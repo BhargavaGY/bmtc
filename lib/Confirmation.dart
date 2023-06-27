@@ -22,8 +22,8 @@ class _ConfirmationState extends State<Confirmation> {
   }
 
   final twilioFlutter = TwilioFlutter(
-    accountSid: 'AC72978e95c60751395d9fb76139d26b4a',
-    authToken: '2ab91745b33b91fadfb09813017de55b',
+    accountSid: '',
+    authToken: '',
     twilioNumber: '+12176263059',
   );
 
