@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
+  static String verify = '';
+
   const Login({Key? key}) : super(key: key);
 
   @override
@@ -9,6 +12,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   TextEditingController countryController = TextEditingController();
+  String phone = '';
 
   @override
   void initState() {
@@ -21,7 +25,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Column(
@@ -32,24 +36,24 @@ class _LoginState extends State<Login> {
                 width: 150,
                 height: 150,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              Text(
+              const Text(
                 "Phone Verification",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "We need to register your phone before getting started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -60,10 +64,10 @@ class _LoginState extends State<Login> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                       child: Text(
                         '+91',
@@ -74,22 +78,25 @@ class _LoginState extends State<Login> {
                         ),
                       )
                     ),
-                    Text(
+                    const Text(
                       "|",
                       style: TextStyle(fontSize: 33, color: Colors.lightBlue),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
                         child: TextField(
                           keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
+                          onChanged: (value){
+                            phone = value;
+                          },
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter Mobile Number",
                             hintStyle: TextStyle( color: Colors.black38, fontWeight: FontWeight.w500)
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700
                           ),
@@ -97,7 +104,7 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -108,10 +115,23 @@ class _LoginState extends State<Login> {
                         primary: Colors.blue.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/verify');
+                    onPressed: () async {
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: '+91' + phone ,
+                        verificationCompleted: (PhoneAuthCredential credential) {},
+                        verificationFailed: (FirebaseAuthException e) {
+                          if (e.code == 'invalid-phone-number') {
+                            print('The provided phone number is not valid.');
+                          }
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+                          Login.verify = verificationId;
+                          Navigator.pushNamed(context, '/verify');
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {},
+                      );
                     },
-                    child: Text("Send the code")),
+                    child: const Text("Send the code")),
               )
             ],
           ),

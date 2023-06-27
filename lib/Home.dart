@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,42 +30,7 @@ class _HomeState extends State<Home> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      side: BorderSide( color: Colors.lightBlueAccent, width: 3)
-                  ),
-                  elevation: 5,
-                  shadowColor: Colors.white,
-                  child: Container(
-                    height: 75,
-                    width: 175,
-                    alignment: Alignment.center,
-                    child: ListTile(
-                      leading: Icon(
-                        CupertinoIcons.person_alt_circle,
-                        size: 25,
-                        color: Colors.blue,
-                      ),
-                      title: Text(
-                        'Log In',
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w700
-                        ),
-                      ),
-                      onTap: () {
-                        // Handle shopping card tap
-                        Navigator.pushNamed(context, '/login');
-                        setState(() {
-                        });
-                      },
-                    ),
-                  ),
 
-                ),
-                SizedBox(height: 16.0),
                 Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -82,7 +49,7 @@ class _HomeState extends State<Home> {
                         color: Colors.blue,
                       ),
                       title: Text(
-                        'QR Tickets',
+                        'Get Tickets',
                         style: TextStyle(
                             fontSize: 22,
                             color: Colors.blue,
@@ -91,7 +58,7 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         // Handle shopping card tap
-                        print('QR Ticket');
+                        Navigator.pushNamed(context, '/ticket');
                       },
                     ),
                   ),
@@ -124,11 +91,46 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       onTap: () {
-                        // Handle shopping card tap
-                        print('Fare');
+                        Navigator.pushNamed(context, '/fare');
                       },
                     ),
                   ),
+                ),
+                SizedBox(height: 16.0,),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: BorderSide( color: Colors.lightBlueAccent, width: 3)
+                  ),
+                  elevation: 5,
+                  shadowColor: Colors.white,
+                  child: Container(
+                    height: 75,
+                    width: 175,
+                    alignment: Alignment.center,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout,
+                        size: 25,
+                        color: Colors.blue,
+                      ),
+                      title: Text(
+                        'Log out',
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w700
+                        ),
+                      ),
+                      onTap: () {
+                        setState((){
+                          auth.signOut();
+                          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                        });
+                      },
+                    ),
+                  ),
+
                 ),
               ],
             ),

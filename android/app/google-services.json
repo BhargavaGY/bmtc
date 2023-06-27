@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1066234551582",
+    "project_id": "bmtc-24a60",
+    "storage_bucket": "bmtc-24a60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066234551582:android:65040994443434c944fd0f",
+        "android_client_info": {
+          "package_name": "com.example.bmtc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066234551582-e0kkhmt2p0ol61isct50tpe0sjbjc8es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxaYeQx-Ff7JVRSG7dWJuaSAdLdmac6sM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066234551582-e0kkhmt2p0ol61isct50tpe0sjbjc8es.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
